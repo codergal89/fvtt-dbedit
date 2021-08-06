@@ -7,6 +7,11 @@
 
 namespace fvtt
 {
+  auto document::id() const -> std::string
+  {
+    return m_id;
+  }
+
   auto document::raw_content() const -> std::string
   {
     return "";

@@ -77,3 +77,21 @@ SCENARIO("JSON objects can be assigned to a document", "[core][document]")
     }
   }
 }
+
+SCENARIO("the ID of a document can be accessed", "[core][document]")
+{
+  GIVEN("a default constructed document")
+  {
+    auto document = fvtt::document{};
+
+    WHEN("when the ID is retrieved")
+    {
+      auto id = document.id();
+
+      THEN("it is equal to the empty string")
+      {
+        CHECK_THAT(id, Equals(""));
+      }
+    }
+  }
+}
