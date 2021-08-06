@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Run GUI",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/bin/fvtt-dbedit-gui",
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "conan: build",
+            "linux": {
+                "MIMode": "gdb",
+            }
+        },
+    ]
+}

@@ -1,0 +1,52 @@
+---
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  build-package:
+    name: Build Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Source
+        uses: actions/checkout@v2
+
+      - name: Cache Conan Packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.conan/data
+          key: conan-package-cache-${{ hashFiles('conanfile.py') }}
+
+      - name: Install gtkmm3
+        run: |
+          sudo apt install libgtkmm-3.0-dev
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install Conan
+        run: |
+          python -m pip install --upgrade pip
+          pip install conan
+
+      - name: Prepare Conan Environment
+        run: |
+          conan install -b missing -if build -s build_type=Release .
+
+      - name: Build Project
+        run: |
+          conan build -bc -bf build -pf package .
+
+      - name: Execute Tests
+        run: |
+          ./build/bin/fvtt-tests --success
+
+      - name: Package Build Output
+        run: |
+          conan package -bf build -pf package .
+...

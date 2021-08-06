@@ -1,0 +1,79 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "conan: install",
+            "type": "shell",
+            "command": "conan",
+            "args": [
+                "install",
+                "-b",
+                "missing",
+                "-if",
+                "build",
+                "-s",
+                "build_type=Debug",
+                "."
+            ],
+            "group": "none"
+        },
+        {
+            "label": "conan: update",
+            "type": "shell",
+            "command": "conan",
+            "args": [
+                "install",
+                "-b",
+                "missing",
+                "-if",
+                "build",
+                "-s",
+                "build_type=Debug",
+                "-u",
+                "."
+            ],
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
+            "label": "conan: build",
+            "type": "shell",
+            "command": "conan",
+            "args": [
+                "build",
+                "-bict",
+                "-bf",
+                "build",
+                "-pf",
+                "package",
+                "."
+            ],
+            "dependsOn": [
+                "conan: install"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "conan: package",
+            "type": "shell",
+            "command": "conan",
+            "args": [
+                "package",
+                "-bf",
+                "build",
+                "-pf",
+                "package",
+                "."
+            ],
+            "dependsOn": [
+                "conan: build"
+            ]
+        },
+    ]
+}
